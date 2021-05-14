@@ -6,14 +6,6 @@
 
 #include "ecc.h"
 
-void FieldElement::init(int num, int prime) {
-    if (num >= prime || num < 0) {
-        std::cout << "Num " << num << " not in field range 0 to " << prime - 1 << std::endl;
-    }
-    this->num = num;
-    this->prime = prime;
-}
-
 void FieldElement::repr() const {
     std::cout << "Field Element_" << this->prime << "(" << this->num << ")" << std::endl;
 }
@@ -33,8 +25,7 @@ FieldElement FieldElement::add(FieldElement &ref) {
         std::cout << "Cannot add two numbers in different Fields" << std::endl;
     }
     int sum = (this->num + ref.num) % this->prime;
-    FieldElement result;
-    result.init(sum, this->prime);
+    FieldElement result(sum, this->prime);
     return result;
 }
 
@@ -46,10 +37,10 @@ FieldElement FieldElement::sub(FieldElement &ref) {
     if (this->num >= ref.num) {
         minus = (this->num - ref.num) % this->prime;
     } else {
+        int numtoDivide = 0;
         minus = ((this->num - ref.num) + this->prime) % this->prime;
     }
-    FieldElement result;
-    result.init(minus, this->prime);
+    FieldElement result(minus, this->prime);
     return result;
 }
 
@@ -57,9 +48,8 @@ FieldElement FieldElement::mul(FieldElement &ref) {
     if (this->prime != ref.prime) {
         std::cout << "Cannot add two numbers in different Fields" << std::endl;
     }
-    FieldElement result;
     int ans = (this->num * ref.num) % this->prime;
-    result.init(ans, this->prime);
+    FieldElement result(ans, this->prime);
     return result;
 }
 
@@ -68,8 +58,7 @@ FieldElement FieldElement::power(int exponent) {
     while (n < 0) n += this->prime - 1;
     int ans = pow(this->num, n);
     ans %= this->prime;
-    FieldElement result;
-    result.init(ans, this->prime);
+    FieldElement result(ans, this->prime);
     return result;
 }
 
@@ -79,7 +68,6 @@ FieldElement FieldElement::truediv(FieldElement &ref) {
     }
     int num = pow(ref.num, this->num - 2);
     int ans = this->num * (num % this->prime) % this->prime;
-    FieldElement result;
-    result.init(ans, this->prime);
+    FieldElement result(ans, this->prime);
     return result;
 }

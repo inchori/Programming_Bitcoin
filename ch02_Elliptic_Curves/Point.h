@@ -14,7 +14,14 @@ private:
     int x, y, a, b;
 
 public:
-    void init(int x, int y, int a, int b);
+    Point(int x, int y, int a, int b) : x(x), y(y), a(a), b(b) {
+        if (this->x == 0 && this->y == 0) return;
+
+        if (pow(this->y, 2) != pow(this->x, 3) + a * x + b) {
+            std::cout << "(" << x << ", " << y << ") is not on the curve" << std::endl;
+        }
+    }
+    //void init(int x, int y, int a, int b);
     bool operator == (Point &ref);
     bool operator != (Point &ref);
     Point add(Point &ref);

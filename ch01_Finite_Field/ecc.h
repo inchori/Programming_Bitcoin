@@ -15,8 +15,12 @@ private:
     int num;
     int prime;
 public:
-//    FieldElement(int num, int prime) : num(num), prime(prime) {} //constructor
-    void init(int num, int prime);
+    FieldElement(int num, int prime) : num(num), prime(prime) { //constructor
+        if (num >= prime || num < 0) {
+            std::cout << "Num " << num << " not in field range 0 to " << prime - 1 << std::endl;
+        }
+    }
+    //void init(int num, int prime);
     void repr() const;
     bool operator == (FieldElement &ref);
     bool operator != (FieldElement &ref);
