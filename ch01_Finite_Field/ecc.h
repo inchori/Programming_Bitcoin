@@ -11,7 +11,7 @@
 #include <cmath>
 
 class FieldElement {
-private:
+public:
     int num;
     int prime;
 public:
