@@ -11,6 +11,7 @@ from helper import (
     int_to_little_endian,
     little_endian_to_int,
     read_varint,
+    SIGHASH_ALL
 )
 from script import Script
 
@@ -144,8 +145,14 @@ class Tx:
                 return False
         return True
 
-    def sign_input(self, input_index, private_key):
-        raise NotImplementedError
+    def sign_input(self, input_index, private_key, compressed=True):
+        z = self.sig_hash(input_index)
+        der = private_key.sign(z).der()
+        sig = der + SIGHASH_ALL.to_bytes(1, 'big')
+        sec = private_key.point.sec(compressed)
+        self.tx_ins[input_index].script_sig = Script([sig, sec])
+        return self.verify_input(input_index)
+
 
 
 class TxIn:
